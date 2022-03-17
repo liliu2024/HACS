@@ -28,6 +28,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private Texture buttonImage;
 	private Texture bucketImage;
+	private Animation spriteMovement;
+	private Texture[] moveTextures;
 	private BitmapFont font;
 	private Rectangle cursor;
 
@@ -40,6 +42,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		buttonImage = new Texture("Button.png");
 		cursor = new Rectangle();
 		bucketImage = new Texture("bucket.png");
+		moveTextures = new Texture []{new Texture("Sprite_Frame1.png"), new Texture("Sprite_Frame2.png"), new Texture("Sprite_Frame3.png"), new Texture("Sprite_Frame4.png")};
+		spriteMovement = new Animation <Texture> (0.08f, moveTextures);
 
 	}
 
