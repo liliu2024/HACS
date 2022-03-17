@@ -2,8 +2,9 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,8 +12,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -29,9 +28,15 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Texture bucketImage;
 	private BitmapFont font;
 	private Rectangle cursor;
+	Button pink;
+
+	//player movement
+	private Sprite player;
+	private float playerSpeed = 1.2f;
 
 	@Override
 	public void create () {
+		player = new Sprite();
 		font = new BitmapFont();
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
@@ -39,7 +44,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		buttonImage = new Texture("Button.png");
 		cursor = new Rectangle();
 		bucketImage = new Texture("bucket.png");
-
+		pink = new Button(buttonImage, batch,128, 50, 300, 400);
 	}
 
 	@Override
@@ -47,7 +52,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		ScreenUtils.clear(0, 0, 0.2f, 1);
 
 		batch.begin();
-		Button pink = new Button(buttonImage, batch,128, 50, 300, 400);
 		pink.interact(bucketImage);
 		if(pink.isPressed() == true){
 			batch.draw(bucketImage, 30, 30);

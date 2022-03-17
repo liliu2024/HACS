@@ -35,6 +35,8 @@ public class Button extends ApplicationAdapter {
     private BitmapFont font;
     private Texture buttonTexture;
     private SpriteBatch buttonBatch;
+
+
 //128, 50
     public Button(Texture texture, SpriteBatch batch,int width, int height, int x, int y){
         this.buttonTexture = texture;
@@ -66,7 +68,7 @@ public class Button extends ApplicationAdapter {
 
     }
     public boolean isPressed(){
-       if(overlaps() && Gdx.input.isTouched()){
+       if(overlaps() && Gdx.input.isButtonJustPressed(0)){
            count++;
            if(count % 2 == 0){
                return false;
