@@ -2,9 +2,9 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -20,12 +22,15 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	private OrthographicCamera camera;
 	private Texture buttonImage;
 	private Texture bucketImage;
+	private Animation spriteMovement;
+	private Texture[] moveTextures;
 	private BitmapFont font;
 	private Rectangle cursor;
 	Button pink;
@@ -44,6 +49,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		buttonImage = new Texture("Button.png");
 		cursor = new Rectangle();
 		bucketImage = new Texture("bucket.png");
+		moveTextures = new Texture []{new Texture("Sprite_Frame1.png"), new Texture("Sprite_Frame2.png"), new Texture("Sprite_Frame3.png"), new Texture("Sprite_Frame4.png")};
+		spriteMovement = new Animation <Texture> (0.08f, moveTextures);
+
 		pink = new Button(buttonImage, batch,128, 50, 300, 400);
 	}
 
