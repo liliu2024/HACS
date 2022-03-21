@@ -38,6 +38,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	//player movement
 	private Sprite player;
 	private float playerSpeed = 1.2f;
+	private float elapsedTime = 0;
 
 	@Override
 	public void create () {
@@ -51,13 +52,18 @@ public class MyGdxGame extends ApplicationAdapter {
 		bucketImage = new Texture("bucket.png");
 		moveTextures = new Texture []{new Texture("Sprite_Frame1.png"), new Texture("Sprite_Frame2.png"), new Texture("Sprite_Frame3.png"), new Texture("Sprite_Frame4.png")};
 		spriteMovement = new Animation <Texture> (0.08f, moveTextures);
+		player = new Sprite;
 
-		pink = new Button(buttonImage, batch,128, 50, 300, 400);
+		pink = new Button(buttonImage, batch, 128, 50, 300, 400);
 	}
 
 	@Override
 	public void render () {
+		elapsedTime += Gdx.graphics.getDeltaTime();
 		ScreenUtils.clear(0, 0, 0.2f, 1);
+
+		player.setTexture(spriteMovement.getKeyFrame(elapsedTime, true));
+		playerMovement();
 
 		batch.begin();
 		pink.interact(bucketImage);
@@ -78,6 +84,32 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	}
+
+	public void playerMovement(){
+
+		if (Gdx.input.isKeyPressed(Input.Keys.D)){
+			player.translateX(playerSpeed);
+			if (player.isFlipX()){
+				player.flip(true,false);
+			}
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.A)){
+
+			player.translateX(-playerSpeed);
+			if (!player.isFlipX()){
+				player.flip(true, false);
+			}
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.W)){
+
+			player.translateY(playerSpeed);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.S)){
+
+			player.translateY(-playerSpeed);
+		}
+	}
+
 
 
 	
