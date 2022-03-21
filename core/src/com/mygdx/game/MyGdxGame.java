@@ -32,6 +32,10 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Texture[] moveTextures;
 	private BitmapFont font;
 	private Rectangle cursor;
+	private float elapsedTime = 0;
+	
+	private Sprite player;
+	private float playerSpeed = 1.2f;
 
 	@Override
 	public void create () {
@@ -44,12 +48,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		bucketImage = new Texture("bucket.png");
 		moveTextures = new Texture []{new Texture("Sprite_Frame1.png"), new Texture("Sprite_Frame2.png"), new Texture("Sprite_Frame3.png"), new Texture("Sprite_Frame4.png")};
 		spriteMovement = new Animation <Texture> (0.08f, moveTextures);
+		player = new Sprite;
 
 	}
 
 	@Override
 	public void render () {
+		elapsed time += Gdx.graphics.getDeltaTime();
 		ScreenUtils.clear(0, 0, 0.2f, 1);
+		
+		player.setTexture(spriteMovement.getKeyFrame(elapsedTime, true));
 
 		batch.begin();
 		Button pink = new Button(buttonImage, batch,128, 50, 300, 400);
