@@ -58,6 +58,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		ScreenUtils.clear(0, 0, 0.2f, 1);
 		
 		player.setTexture(spriteMovement.getKeyFrame(elapsedTime, true));
+		playerMovement();
 
 		batch.begin();
 		Button pink = new Button(buttonImage, batch,128, 50, 300, 400);
@@ -79,6 +80,32 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	}
+	
+	public void playerMovement(){
+	
+		if (Gdx.input.isKeyPressed(Input.Keys.D)){
+			player.translateX(playerSpeed);
+			if (player.isFlipX()){
+				player.flip(true,false);
+			}
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.A)){
+		
+			player.translateX(-playerSpeed);
+			if (!player.isFlipX()){
+				player.flip(true, false);
+			}
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.W)){
+		
+			player.translateY(playerSpeed);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.S)){
+		
+			player.translateY(-playerSpeed);
+		}
+	}
+		
 
 
 	
