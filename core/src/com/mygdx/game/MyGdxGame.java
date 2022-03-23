@@ -24,6 +24,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -40,6 +45,15 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Sprite player;
 	private float playerSpeed = 1.2f;
 	private float elapsedTime = 0f;
+	
+	//grid instance fields
+	private int numLVL = 1;
+	private final int gridHeight = 20;
+	private final int gridWidth = 20;
+	private final int gridSize = 32;
+	private Texture[] gridTextures;
+	private int[][] gridLayout;
+	
 
 	@Override
 	public void create () {
@@ -56,6 +70,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		player = new Sprite(new Texture("Sprite_Frame1.png"));
 		pink = new Button(buttonImage, bucketImage, batch,128, 50, 300, 400);
 		player.scale(1.4f);
+		
+		gridLayout = new int[gridHeight][gridWidth];
+		gridTextures = new Texture[]{new Texture("Tile_1.png")};
+		loadLVL();
 	}
 
 	@Override
@@ -74,6 +92,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		font.draw(batch, Integer.toString(pink.getCount()), 200, 240 );
 		player.draw(batch);
 		puzzle1();
+		lvlBOUNDARIES();
 		batch.end();
 	}
 
@@ -111,7 +130,47 @@ public class MyGdxGame extends ApplicationAdapter {
 			player.translateY(-playerSpeed);
 		}
 	}
+	
+	public void loadLVL(){
+		lvlGENERATION();
+		for (int r = 0; r < gridHeight; r++){
+			for (int c = 0; c < gridWidth){
+				batch.draw(gridTexture[gridLayout[r][c]], r * gridSize, c * gridSize);
+			}	
+		}
+	}
 
+	public void lvlGENERATION(){
+		
+		try {
+			Scanner in = new Scanner(new File("levels/level" + lvlNUM + ".txt"));
+			for (int r = 0; r < gridHeight; r ++){
+				for (int c = 0; c < gridWidth; c ++){
+					int n = in.nextInt();
+					gridLayout[r][c] = n;
+				}
+			}
+		
+		} catch (FileNotFoundException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void lvlBOUNDARIES(){
+		
+		if (player.getX() > 600){
+			player.setX(0f);
+			lvlNUM ++;
+			loadLVL();
+		}
+		if (lvlNUM > 1){
+			if (Player.getX() < 0){
+				Player.setX(600f);
+				lvlNum --;
+				loadLvl();
+			}
+		}
+	}
 
 
 	
