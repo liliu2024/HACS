@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -29,7 +30,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private Texture buttonImage;
 	private Texture bucketImage;
-	private Animation spriteMovement;
+	private Animation <Texture> spriteMovement;
 	private Texture[] moveTextures;
 	private BitmapFont font;
 	private Rectangle cursor;
@@ -38,7 +39,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	//player movement
 	private Sprite player;
 	private float playerSpeed = 1.2f;
-	private float elapsedTime = 0;
+	private float elapsedTime = 0f;
 
 	@Override
 	public void create () {
@@ -52,25 +53,26 @@ public class MyGdxGame extends ApplicationAdapter {
 		bucketImage = new Texture("bucket.png");
 		moveTextures = new Texture []{new Texture("Sprite_Frame1.png"), new Texture("Sprite_Frame2.png"), new Texture("Sprite_Frame3.png"), new Texture("Sprite_Frame4.png")};
 		spriteMovement = new Animation <Texture> (0.08f, moveTextures);
-		player = new Sprite;
-
-		pink = new Button(buttonImage, batch, 128, 50, 300, 400);
+		player = new Sprite(new Texture("Sprite_Frame1.png"));
+		pink = new Button(buttonImage, bucketImage, batch,128, 50, 300, 400);
+		player.scale(1.4f);
 	}
 
 	@Override
 	public void render () {
 		elapsedTime += Gdx.graphics.getDeltaTime();
 		ScreenUtils.clear(0, 0, 0.2f, 1);
-
 		player.setTexture(spriteMovement.getKeyFrame(elapsedTime, true));
 		playerMovement();
 
 		batch.begin();
-		pink.interact(bucketImage);
+		pink.interact();
+		batch.draw(bucketImage, 300, 30);
 		if(pink.isPressed() == true){
 			batch.draw(bucketImage, 30, 30);
-			font.draw(batch, Integer.toString(pink.getCount()), 200, 240 );
 		}
+		font.draw(batch, Integer.toString(pink.getCount()), 200, 240 );
+		player.draw(batch);
 		puzzle1();
 		batch.end();
 	}
@@ -89,14 +91,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		if (Gdx.input.isKeyPressed(Input.Keys.D)){
 			player.translateX(playerSpeed);
-			if (player.isFlipX()){
+			if (!player.isFlipX()){
 				player.flip(true,false);
 			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.A)){
 
 			player.translateX(-playerSpeed);
-			if (!player.isFlipX()){
+			if (player.isFlipX()){
 				player.flip(true, false);
 			}
 		}

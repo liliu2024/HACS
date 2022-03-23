@@ -26,19 +26,27 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.graphics.Color;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 public class Button extends ApplicationAdapter {
     private int width;
     private int height;
     private int x;
     private int y;
     private int count;
+    private boolean isPressed;
     private BitmapFont font;
     private Texture buttonTexture;
+    private Texture altButtonTexture;
     private SpriteBatch buttonBatch;
 
+   
 
-//128, 50
-    public Button(Texture texture, SpriteBatch batch,int width, int height, int x, int y){
+
+    //128, 50
+    public Button(Texture texture, Texture altButtonTexture, SpriteBatch batch,int width, int height, int x, int y){
+        this.altButtonTexture = altButtonTexture;
         this.buttonTexture = texture;
         this.buttonBatch = batch;
         this.width = width;
@@ -46,6 +54,7 @@ public class Button extends ApplicationAdapter {
         this.x = x;
         this.y = y;
         this.font = new BitmapFont();
+        this.isPressed = false;
     }
 //**(0, 0) is top left, but objects are made with bottom left corner
     public boolean overlaps(){
@@ -58,23 +67,18 @@ public class Button extends ApplicationAdapter {
 
     }
 
-    public void interact(Texture altTexture){
+    public void interact(){
         if(overlaps() == false){
             buttonBatch.draw(buttonTexture, x, y);
         }else{
-            setButtonTexture(altTexture);
-            buttonBatch.draw(altTexture, x, y);
+            buttonBatch.draw(altButtonTexture, x, y);
         }
 
     }
     public boolean isPressed(){
-       if(overlaps() && Gdx.input.isButtonJustPressed(0)){
-           count++;
-           if(count % 2 == 0){
-               return false;
-           }else{
-               return true;
-           }
+       if(overlaps() && Gdx.input.justTouched()){
+           isPressed = !isPressed;
+           return isPressed;
        }
 //        font.draw(buttonBatch, Integer.toString(count), 60, 60);
        return false;
